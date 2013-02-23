@@ -61,7 +61,7 @@ object KafkaBuild extends Build {
       "org.codehaus.jackson" % "jackson-mapper-asl" % "1.5.5",
       "org.apache.hadoop"    % "hadoop-core"        % "0.20.2"
     ),
-    ivyXML := 
+    ivyXML :=
        <dependencies>
          <exclude module="netty"/>
          <exclude module="javax"/>
@@ -88,7 +88,7 @@ object KafkaBuild extends Build {
   }
 
   lazy val kafka    = Project(id = "Kafka", base = file(".")).aggregate(core, examples, contrib, perf).settings((commonSettings ++ runRatTask): _*)
-  lazy val core     = Project(id = "core", base = file("core")).settings(commonSettings: _*).settings(coreSettings: _*)
+  lazy val core     = Project(id = "core", base = file("core")).settings(commonSettings: _*).settings(coreSettings: _*).settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
   lazy val examples = Project(id = "java-examples", base = file("examples")).settings(commonSettings :_*) dependsOn (core)
   lazy val perf     = Project(id = "perf", base = file("perf")).settings((Seq(name := "kafka-perf") ++ commonSettings):_*) dependsOn (core)
 
